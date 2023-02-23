@@ -1,52 +1,14 @@
-const express = require("express")
-const app = express()
-const port = 3000
+const express = require("express");
+const app = express();
+const port = 3000;
+const Userrouter = require("./router/userRouter");
+const Fruitrouter = require("./router/fruitRouter");
 
-// List of Users
-let users = [
-    {
-        name: "User 1",
-        age: 30
-    },
-    {
-        name: "User 2",
-        age: 45
-    },
-    {
-        name: "User 3",
-        age: 27
-    },
-    {
-        name: "User 4",
-        age: 22
-    }
-]
-
-// List of Fruits
-let fruits = [
-    {
-        name: "Apple",
-        color: "Red"
-    },
-    {
-        name: "Banana",
-        color: "Yellow"
-    },
-    {
-        name: "Kiwi",
-        color: "Green"
-    },
-    {
-        name: "Grape",
-        color: "Purple"
-    },
-]
-
+app.use(express.json());
 // Express Routes
-
-
-
+app.use("/api", Userrouter);
+app.use("/api", Fruitrouter);
 
 app.listen(port, () => {
-    console.log(`App listening on port ${port}`)
-})
+  console.log(`App listening on port ${port}`);
+});

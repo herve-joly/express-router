@@ -1,0 +1,54 @@
+const express = require("express");
+const router = express.Router();
+
+// List of Fruits
+let fruits = [
+  {
+    name: "Apple",
+    color: "Red",
+  },
+  {
+    name: "Banana",
+    color: "Yellow",
+  },
+  {
+    name: "Kiwi",
+    color: "Green",
+  },
+  {
+    name: "Grape",
+    color: "Purple",
+  },
+];
+
+//GET all fruits
+router.get("/fruit", async (req, res) => {
+  await res.send(fruits);
+});
+//GET one fruit
+router.get("/fruit/:id", async (req, res) => {
+  const fruit = fruits[req.params.id - 1];
+  await res.send(fruit);
+});
+//post
+router.post("/fruit", async (req, res) => {
+  const newFruit = req.body;
+  fruits.push(newFruit);
+  res.send(fruits);
+});
+//put
+router.put("/fruit/:id", async (request, response) => {
+  const index = Number(request.params.id) - 1;
+  const upFruit = request.body;
+  fruits[index] = upFruit;
+  await response.send(fruits);
+});
+//delete
+router.delete("/fruit/:id", async (req, res) => {
+  const id = Number(req.params.id);
+  const fruitIndex = id - 1;
+  fruits.splice(fruitIndex, 1);
+  await res.json(fruits);
+});
+
+module.exports = router;
