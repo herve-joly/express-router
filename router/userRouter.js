@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const { check, validationResult } = require("express-validator");
 
 // List of Users
 let users = [
@@ -25,17 +26,27 @@ let users = [
 router.get("/user", async (req, res) => {
   await res.send(users);
 });
+
 //GET one user
 router.get("/user/:id", async (req, res) => {
   const person = users[req.params.id - 1];
   await res.send(person);
 });
 //post
-router.post("/user", async (req, res) => {
-  const newUser = req.body;
-  fruits.push(newUser);
-  res.send(users);
-});
+router.post(
+  "/user",
+  [check("name").not().isEmpty().trim()],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      res.send({ error: errors.array() });
+    } else {
+      const newUser = req.body;
+      fruits.push(newUser);
+      res.send(users);
+    }
+  }
+);
 //put
 router.put("/user/:id", async (request, response) => {
   const index = Number(request.params.id) - 1;
